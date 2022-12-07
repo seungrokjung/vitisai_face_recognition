@@ -25,12 +25,15 @@ In Face Recognition,
 ## Implementation Steps
 AI Accelerator status check
 Check management and user BDFs(Bus:Device:Function). In this example, they are 0000:0b:00.0 and 0000:0b:00.1, respectively:
+
 1. $sudo lspci -vd 10ee:
 
 Examine <management BDF>:
+
 2. sudo xbmgmt examine -d 0000:0b:00.0
 
 Validate the card by <user BDF>:
+
 3. sudo xbutil validate -d 0000:0b:00.1
 
 ```bash
