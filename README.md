@@ -23,16 +23,27 @@ In Face Recognition,
 In Face Recognition, 
 
 ## Implementation Steps
+AMD's VCK5000 card setup in the host machine.
+Clone Vitis-AI git (https://github.com/Xilinx/Vitis-AI) and setup the card by running this command
+
+```bash
+cd Vitis-AI/setup/vck5000/
+source ./install.sh
+```
+
 AI Accelerator status check
-Check management and user BDFs(Bus:Device:Function). In this example, they are 0000:0b:00.0 and 0000:0b:00.1, respectively:
+Check management and user BDFs(Bus:Device:Function). In this example, they are 0000:0b:00.0 and 0000:0b:00.1, respectively.
+Make sure Kernel driver in use are xclmgmt and xocl.
 
 1. $sudo lspci -vd 10ee:
 
-Examine <management BDF>:
+Examine the the card by using managment BDF.
+Make sure that you can find Platform and SC Version Platform UUID, Interface UUID, and Mac Address.
 
 2. sudo xbmgmt examine -d 0000:0b:00.0
 
-Validate the card by <user BDF>:
+Validate the card by user BDF.
+The card should pass Test 1~6.
 
 3. sudo xbutil validate -d 0000:0b:00.1
 
@@ -127,7 +138,18 @@ Test 6 [0000:0b:00.1]     : Bandwidth kernel
     Details               : Maximum throughput: 50177 MB/s
     Test Status           : [PASSED]
 -----------------------------------
+```
 
+If any of the previous steps do not properly run, reset the card by the following command or reboot the machine.
+
+```bash
+$sudo xbutil reset -d 0000:0b:00.1
+```
+
+If you passed the above checkups, you can select DPU kernels by running this command. In this example, I used 6PE 350Hz with DWC kernel for my application.
+
+```bash
+source /workspace/setup/vck5000/setup.sh DPUCVDX8H_6pe_dwc
 ```
 
 ## Backgrounds 
