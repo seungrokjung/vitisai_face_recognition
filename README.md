@@ -1,4 +1,4 @@
-# VAI Face Recognition 
+# Building Face Recognition system from scratch
 This guide explains implementation detail of face recognition application.
 The application was built on top of AMD's Vitis-AI SW stack.
 AMD's VCK5000 AI Accelerator was used to run the application but it's compatible with other AMD's Alveo AI Accelerators.
@@ -17,14 +17,26 @@ AMD's VCK5000 AI Accelerator was used to run the application but it's compatible
 
 
 ## Model overview
-In Face Recognition, 
+The face recognition can be divided into two parts. 
+Face detection where face candidates are selected on the input iamge. 
+In this application, densebox :w
+
+
+Face feature extraction calcualtes similarities between candidate target face classes and classify the face based on the similarity score.
+
+https://docs.xilinx.com/r/en-US/ug1354-xilinx-ai-sdk/Face-Detection
+
+
+densebox_640_360
+## Data-set Preparation
 
 ## Preparation 
-In Face Recognition, 
 
 ## Implementation Steps
-AMD's VCK5000 card setup in the host machine.
-Clone Vitis-AI git (https://github.com/Xilinx/Vitis-AI) and setup the card by running this command
+
+### AMD's VCK5000 card setup in the host machine.
+
+1. Clone Vitis-AI git (https://github.com/Xilinx/Vitis-AI) and setup the card by running this command
 
 ```bash
 cd Vitis-AI/setup/vck5000/
@@ -32,20 +44,19 @@ source ./install.sh
 ```
 
 AI Accelerator status check
-Check management and user BDFs(Bus:Device:Function). In this example, they are 0000:0b:00.0 and 0000:0b:00.1, respectively.
-Make sure Kernel driver in use are xclmgmt and xocl.
 
-1. $sudo lspci -vd 10ee:
+Check management and user BDFs(Bus:Device:Function). In this example, they are 0000:0b:00.0 and 0000:0b:00.1, respectively.  Make sure Kernel driver in use are xclmgmt and xocl.  
+2. $sudo lspci -vd 10ee:
 
 Examine the the card by using managment BDF.
 Make sure that you can find Platform and SC Version Platform UUID, Interface UUID, and Mac Address.
 
-2. sudo xbmgmt examine -d 0000:0b:00.0
+3. sudo xbmgmt examine -d 0000:0b:00.0
 
 Validate the card by user BDF.
 The card should pass Test 1~6.
 
-3. sudo xbutil validate -d 0000:0b:00.1
+4. sudo xbutil validate -d 0000:0b:00.1
 
 ```bash
 $sudo lspci -vd 10ee:
@@ -146,11 +157,26 @@ If any of the previous steps do not properly run, reset the card by the followin
 $sudo xbutil reset -d 0000:0b:00.1
 ```
 
-If you passed the above checkups, you can select DPU kernels by running this command. In this example, I used 6PE 350Hz with DWC kernel for my application.
+5. If you passed the above checkups, you can select DPU kernels by running this command. In this example, I used 6PE 350Hz with DWC kernel for my application.
 
 ```bash
 source /workspace/setup/vck5000/setup.sh DPUCVDX8H_6pe_dwc
 ```
+
+### Prepare ML Models
+
+This face recognition application needs 2 steps: face detection and face feature extraction
+I used pre-compile and pre-quantized densebox_640_360 model for face detection. 
+For face feature extraction, I'll quantize and compile InceptionResnetV1 model from facenet_pytorch. 
+
+1. Prepare F
+
+https://www.xilinx.com/bin/public/openDownload?filename=densebox_640_360-vck5000-DPUCVDX8H-6pe-aieDWC-r2.5.0.tar.gz
+
+
+https://github.com/Xilinx/Vitis-AI/blob/master/model_zoo/model-list/cf_densebox_wider_360_640_1.11G_2.5/model.yaml
+
+
 
 ## Backgrounds 
 
