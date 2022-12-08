@@ -140,7 +140,7 @@ class: JohnnyDepp, score: 2.75
 <br/><br/>
 
 <div align=center><img width=800 src ="./images/result_multi_face.png"/></div>
-<div align=center> Fig 2. sample feature recognition result </div>
+<div align=center> Fig 2. face detection + feature extraction + classification result </div>
 <br/><br/>
 
 ## Card setup details
