@@ -32,23 +32,24 @@ https://www.vmaccel.com/
 Face recognition can be divided into two steps. 
 Face detection where face candidates are selected from the input image. Outputs of face detection are the probabilities and bounding boxes of face candidates. In this example, densbox model is used as it is provided in the Vitis-AI model zoo. The model is already quantized into INT8 data type and compiled for AMD’s AI Accelerator cards. 
 https://github.com/Xilinx/Vitis-AI/blob/master/model_zoo/model-list/cf_densebox_wider_360_640_1.11G_2.5/model.yaml
-Face feature extraction 512 face features from the cropped face image from the face detector. Output of the face feature extraction is the probability of the class. For example, when the model classifier (from 512 features to #classes) is trained to differentiate among 10 persons, the feature extraction of sample input image gives probability of similarities among 10 persons. InceptionResnetV1 model is used. This model is implemented in pytorch and it needs quantization and compilation to be run on AMD’s AI Accelerator cards. 
+Face feature extraction generates 512 face features from the cropped face image from the face detector. Output of the face feature extraction is the probability of the class. For example, when the model classifier (from 512 features to #classes) is trained to differentiate 10 persons(classes), the feature extraction of sample input image gives probability of similarities among 10 persons(classes). InceptionResnetV1 model is used as a face feature extractor. This model is implemented in pytorch and pre-trained in FP32 but it needs quantization and compilation to be run on AMD’s AI Accelerator cards. 
 https://github.com/timesler/facenet-pytorch
 
 ### 2. Data set overview
-Public face data set is used for this implementation. But you can also use your own face data. 17 classes of celebrity face data in the following link are used and each class has 100 faces from different angles, orientation and lighting. 
+Public face data set is used for this implementation. 17 classes of celebrity face data in the following link are used and each class has 100 faces from different angles, orientation and lighting. 
 https://www.kaggle.com/datasets/vishesh1412/celebrity-face-image-dataset
+But you can also use your own face data.
 
 ## Implementation steps
 ### Step 1
-Fine-tune Face feature extraction model (InceptionResnetV1) to the 17 classes celebrity face data set. Please refer to the finetune script in the facenet-pytorch git ( https://github.com/timesler/facenet-pytorch/blob/master/examples/finetune.ipynb).
-After fine-tuning the InceptionResnetV1 model to celebrity face data set, make sure to save the model. 
+Fine-tune the face feature extraction model (InceptionResnetV1) to the 17 classes of celebrity face data set. Please refer to the finetune script in the facenet-pytorch git ( https://github.com/timesler/facenet-pytorch/blob/master/examples/finetune.ipynb).
+After fine-tuning the InceptionResnetV1 model to celebrity face data set, make sure to save the model with the following command. 
 ```bash
 torch.save(resnet.state_dict(), "./InceptionResnetV1_classify_state_ITR1.pth")
 ```
 ### Step 2
-Download Vitis-AI and setup AI Accelerator cards (VCK5000 is used in this example)
-Download Vitis-AI
+Download Vitis-AI (https://github.com/Xilinx/Vitis-AI)
+And setup AI Accelerator cards (VCK5000 is used in this example)
 If this step fails, please refer to this section 
 - [Card setup details](#card-setup-details)
 
@@ -58,7 +59,7 @@ cd Vitis-AI/setup/vck5000/
 source ./install.sh
 ```
 ### Step 3
-Launch docker (xilinx/vitis-ai-cpu:latest). If you have GPUs in your machine, you can also select (xilinx/vitis-ai-gpu:latest). The GPUs can be used to quantize models. 
+Launch docker (xilinx/vitis-ai-cpu:latest). If you have GPUs in your machine, you can also select (xilinx/vitis-ai-gpu:latest) for faster quantization. 
 ```bash
 cd Vitis-AI
 ./docker_run.sh xilinx/vitis-ai-cpu:latest
@@ -66,12 +67,18 @@ cd Vitis-AI
 ### Step 4
 Invoke pytorch conda environment to quantize and compile the face feature extraction model  (InceptionResnetV1).
  
-Before quantization, fp32 InceptionResnetV1 has following accuracies:
+Before quantization, fp32 InceptionResnetV1
+```bash
 loss: 0.0100238
 top-1 / top-5 accuracy: 90.6563 / 99.1101
-After quantization, INT8 InceptionResnetV1 recovers accuracies as follows:
+```
+
+After quantization, INT8 InceptionResnetV1
+```bash
 loss: 0.0101847
 top-1 / top-5 accuracy: 90.6563 / 99.2214
+```
+
 ```bash
 conda activate vitis-ai-pytorch
 cd /workspace/src/Vitis-AI-Quantizer/vai_q_pytorch/example
@@ -83,7 +90,7 @@ cp {./quantization/InceptionResnetV1_classify_quant.py in this git} ./.
 python InceptionResnetV1_classify_quant.py --quant_mode float
 python InceptionResnetV1_classify_quant.py --quant_mode calib --subset_len 200
 python InceptionResnetV1_classify_quant.py --quant_mode test
-python InceptionResnetV1_classify_quant.py --quant_mode test  --subset_len 1 --batch_size 1 --deploy
+python InceptionResnetV1_classify_quant.py --quant_mode test --subset_len 1 --batch_size 1 --deploy
 vai_c_xir -x quantize_result/InceptionResnetV1_int.xmodel -o quantize_result -n InceptionResnetV1 -a /opt/vitis_ai/compiler/arch/DPUCVDX8H/VCK50006PEDWC/arch.json
 ```
 After Step 4., following files are generated:
@@ -144,7 +151,7 @@ class: JohnnyDepp, score: 2.75
 <br/><br/>
 
 ## Card setup details
-Make sure you can pass these commands after you setup card. 
+Make sure you can pass these commands after you setup the card. 
 
 AI Accelerator status check
 Check management and user BDFs(Bus:Device:Function). In this example, they are 0000:0b:00.0 and 0000:0b:00.1, respectively.  Make sure Kernel driver in use are xclmgmt and xocl.  
