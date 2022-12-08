@@ -1,15 +1,16 @@
-# Overview: Building Face Recognition system from Vitis-AI
+# Building Face Recognition system from AMD's Vitis-AI
 This guide explains how to build a face recognition application from Vitis-AI library, which is AMD’s neural network SW stack for data-center AI Accelerators. This application was built on AMD's VCK5000 AI Accelerator but compatible with other AMD's Alveo AI Accelerators, U50LV and U55C. 
-More information about the cards can be found in this link. https://www.xilinx.com/products/boards-and-kits/alveo.html 
+More information about the cards can be found in this link.  
+https://www.xilinx.com/products/boards-and-kits/alveo.html 
 If you don’t have a card, you can also try VMAccel cloud instance.  
 https://www.vmaccel.com/
 
-**Face Recognition on AMD's AI Accelerator**
+**Face Recognition on AMD's AI Accelerator: Press play button**
 
 ![Alt Text](./images/fr_tomcruise_sample.gif)
 
 ## Table of Contents
-- [Overview: Building Face Recognition system from Vitis-AI](#overview)
+- [Building Face Recognition system from Vitis-AI](#overview)
   - [Table Of Contents](#table-of-contents)
   - [Introduction](#introduction)
     - [1. Model overview](#model-overview)
@@ -21,7 +22,7 @@ https://www.vmaccel.com/
     - [Step 4](#step-4)
     - [Step 5](#step-5)
     - [Step 6](#step-6)
-  - [Additional information about Step 2. AMD's VCK5000 card setup in the host machine](#Additional information)
+  - [Additional information about AMD's VCK5000 card setup in the host machine](#Additional information)
   - [References](#references)
 
 
@@ -48,6 +49,9 @@ torch.save(resnet.state_dict(), "./InceptionResnetV1_classify_state_ITR1.pth")
 ### Step 2
 Download Vitis-AI and setup AI Accelerator cards (VCK5000 is used in this example)
 Download Vitis-AI
+If this step fails, please refer to this section 
+  - [Additional information about AMD's VCK5000 card setup in the host machine](#Additional information)
+
 ```bash
 git clone --recurse-submodules https://github.com/Xilinx/Vitis-AI  
 cd Vitis-AI/setup/vck5000/
@@ -131,15 +135,15 @@ class: BradPitt, score: 3.125
 class: JohnnyDepp, score: 2.75
 ```
 
-<div align=center><img width=800 src ="multi_face.jpg"/></div>
+<div align=center><img width=800 src ="multi_face.png"/></div>
 <div align=center> Fig 1. sample input image </div>
 <br/><br/>
 
-<div align=center><img width=800 src ="result_multi_face.jpg"/></div>
+<div align=center><img width=800 src ="result_multi_face.png"/></div>
 <div align=center> Fig 2. sample feature recognition result </div>
 <br/><br/>
 
-## Additional information about Step 2. AMD's VCK5000 card setup in the host machine
+## Additional information about AMD's VCK5000 card setup in the host machine
 Make sure you can pass these commands after you setup card. 
 
 AI Accelerator status check

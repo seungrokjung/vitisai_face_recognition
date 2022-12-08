@@ -1,0 +1,12 @@
+model {
+   name : "InceptionResnetV1"
+   kernel {
+      name: "InceptionResnetV1_0"
+      mean: 128.0
+      mean: 128.0
+      mean: 128.0
+      scale: 0.0078125
+      scale: 0.0078125
+      scale: 0.0078125
+   }
+}
