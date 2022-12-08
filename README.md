@@ -22,7 +22,7 @@ https://www.vmaccel.com/
     - [Step 4](#step-4)
     - [Step 5](#step-5)
     - [Step 6](#step-6)
-  - [Additional information about AMD's VCK5000 card setup in the host machine](#Additional information)
+  - [Card setup details](#card-setup-details)
   - [References](#references)
 
 
@@ -50,7 +50,7 @@ torch.save(resnet.state_dict(), "./InceptionResnetV1_classify_state_ITR1.pth")
 Download Vitis-AI and setup AI Accelerator cards (VCK5000 is used in this example)
 Download Vitis-AI
 If this step fails, please refer to this section 
-  - [Additional information about AMD's VCK5000 card setup in the host machine](#Additional information)
+- [Card setup details](#card-setup-details)
 
 ```bash
 git clone --recurse-submodules https://github.com/Xilinx/Vitis-AI  
@@ -135,15 +135,15 @@ class: BradPitt, score: 3.125
 class: JohnnyDepp, score: 2.75
 ```
 
-<div align=center><img width=800 src ="multi_face.png"/></div>
+<div align=center><img width=800 src ="./images/multi_face.png"/></div>
 <div align=center> Fig 1. sample input image </div>
 <br/><br/>
 
-<div align=center><img width=800 src ="result_multi_face.png"/></div>
+<div align=center><img width=800 src ="./images/result_multi_face.png"/></div>
 <div align=center> Fig 2. sample feature recognition result </div>
 <br/><br/>
 
-## Additional information about AMD's VCK5000 card setup in the host machine
+## Card setup details
 Make sure you can pass these commands after you setup card. 
 
 AI Accelerator status check
