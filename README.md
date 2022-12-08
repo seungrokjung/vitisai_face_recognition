@@ -122,7 +122,7 @@ cp {./example/fr.cpp in this git} ./.
 cp {./example/fr_mp4.cpp in this git} ./.
 bash -x build.sh
 cp {images/multi_face.jpg in this git} ./. 
-./fr images/multi_face.jpg 2.5
+./fr multi_face.jpg 2.5
 ./fr_mp4 {any *.mp4 file} 2.5
 ```
 Given the classification confidence of 2.5, the result will look like this. Note that one of the faces, Gal Godot, which is not in the training data set is classified as UNIDENTIFIED. 
