@@ -73,7 +73,7 @@ def load_data(train=True,
   valdir = data_dir + '/val'
   train_sampler = None
   normalize = transforms.Normalize(
-      mean=[0.0, 0.0, 0.0], std=[1.0, 1.0, 1.0])
+      mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
   if model_name == 'inception_v3':
     size = 299
     resize = 299
