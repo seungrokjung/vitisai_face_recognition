@@ -69,14 +69,14 @@ Invoke pytorch conda environment to quantize and compile the face feature extrac
  
 Before quantization, fp32 InceptionResnetV1
 ```bash
-loss: 0.0100238
-top-1 / top-5 accuracy: 90.6563 / 99.1101
+loss: 0.00126792
+top-1 / top-5 accuracy: 98.9989 / 99.8888
 ```
 
 After quantization, INT8 InceptionResnetV1
 ```bash
-loss: 0.0101847
-top-1 / top-5 accuracy: 90.6563 / 99.2214
+loss: 0.000552625
+top-1 / top-5 accuracy: 100 / 100
 ```
 
 ```bash
