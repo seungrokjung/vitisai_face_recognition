@@ -75,8 +75,8 @@ top-1 / top-5 accuracy: 98.9989 / 99.8888
 
 After quantization, INT8 InceptionResnetV1
 ```bash
-loss: 0.000552625
-top-1 / top-5 accuracy: 100 / 100
+loss: 0.00131713
+top-1 / top-5 accuracy: 98.9433 / 99.9444
 ```
 
 ```bash
